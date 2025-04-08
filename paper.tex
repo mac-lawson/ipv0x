@@ -1,0 +1,148 @@
+\documentclass{article}
+
+\usepackage{mla13}
+\usepackage{blindtext}
+\usepackage{lipsum}
+\usepackage{biblatex}
+\usepackage{graphicx}
+
+\graphicspath{./images/}
+
+
+
+
+\title{Implementing a Consensus-Backed Computer Network}    
+\firstname{Mac}            
+\lastname{Lawson}            
+\professor{Mr. Steen Smith}   
+\advisor{Fr. Joseph Whitehurst}
+\class{Senior Project}   
+\sources{references.bib}    
+\addbibresource{references.bib}
+
+
+\begin{document}
+
+\maketitlepage
+\newpage
+
+\tableofcontents
+\newpage
+
+\begin{abstract}
+Implementing a consensus-backed network model, IPv0x, that integrates signed packets, encryption protocols, and an embedded Tor client within the existing TCP/IP framework can enhance internet security and privacy blockchain-based mechanisms.
+\end{abstract}
+\newpage
+
+\makeheader    
+\maketitle    
+
+\section{Introduction}
+\subsection{Background}
+\subsubsection{General History of TCP/IP}
+The fundamental protocols of TCP/IP networks were designed by academic researchers and military officers at the Department of Defense's Advanced Research Projects Agency (DARPA). While originally only used for classified information-sharing networks, the DoD began to install ARPANET terminals at universities with strong computer science research programs. Institutions like the Massachusetts Institute of Technology, California Institute of Technology, Carnegie Mellon University, and University College London received direct connections. As the TCP/IP protocol grew, the American Telephone and Telegraph Company and the International Business Machines Corporation adopted it for internal communications which later turned into the World Wide Web, created by Tim Berners-Lee. 
+
+\subsubsection{Philosophy}
+The modern protocols and addressing systems we call the "internet" have been taken over by large companies and governments with the sole goal of controlling the expression and activities of users. We often joke as a society about landing on a “watchlist” for searching for something on the internet that challenges the mainstream narrative. 
+
+The very protocols and systems intended to connect humanity have been hijacked by a surveillance capitalist establishment, the essence of which has only begun to form in the past twenty years. When nearly all internet traffic is funneled through a handful of corporations, like Google, which controls ninety-two percent of it, we’re not just losing control—we’re being caged in a system designed to monitor, manipulate, and exploit our every move.
+
+Dr. Richard Stallman is one of the last "true" MIT hackers who has maintained steadfast views and lifestyle practices into the modern day. The MIT hacking community began to form in the late 1960s and early 1970s. While the modern concept of the term "hacker" is ridden with connotations of crime and nefarious disruption of computational activities, Stallman's form of hacker was a group of MITProject on Mathematics and Computation (Project MAC), now Computer Science and Artificial Intelligence Laboratory (CSAIL), researchers and professors who dedicated their lives with a strict discipline to the evolution of computing and machine learning. This period saw the advent of languages such as LISP, which is widely regarded as the most elegant programming language paradigm in terms of elegance. Alongside the advent of bounding computational innovations, a philosophy was developed that the dwindling true members of CSAIL implemented in all their software. This is known in the modern day as the Free Software Movement. 
+
+    The Free Software movement began with a seemingly meaningless event. Dr. Stallman had designed a cron job, a Unix-based automated shell command, that sent a department-wide email when the Xerox laser printer jammed. It also held all attempted print jobs across the network until the jam was resolved. The query was hard-coded into the printer's local drivers, which Stallman had only been able to access because Xerox had provided source code documentation of their printers. However, MIT soon purchased a newer device, the Xerox 9700, which was the first of Xerox devices to be closed-source. Unable to install his system that saved the entire CSAIL faculty the daily annoyance of making the journey from their offices to the print room just to find their batch of exams not printed, Stallman began his crusade of making the free software philosophy of CSAIL public. He established the Free Software Foundation and published routine essays over MIT mailserv (The MIT mailing list system) lists. In 1983, Stallman became increasingly frustrated by the closed-source nature of modern software being released in the Unix landscape. As a result, he started the GNU project. GNU is a recursive acronym, standing for "GNUs, not Unix". GNU relied on Unix as its kernel, the driver that allocates hardware resources to the needs of the software running on a machine.
+
+    The original philosophy of the free software movement has become largely lost in time. However, an internet networking system using blockchain would re-install the original values that were proposed in Stallman's writings. The majority of the foundational ones, written while he was still at MIT, are included in the GNU Press Shop's collection \textit{Free Software, Free Society}. Blockchain networking systems are inherently democratic, as they secure three main user rights. The right to share data cannot be brokered without direct consent by a third party, something that is commonplace in the modern internet. A user would have to be willing to sign over a key to every file and shard of data that they wanted to share. Software that is published into the network would be done over the IPFS, InterPlanetary file system. By using content addressing, IPFS uniquely identifies each file in a global namespace that connects IPFS hosts, creating a resilient system of file storage and sharing. This would allow all users the right to see the raw files of code that the software is running. Finally, data is not allowed onto the network unless it is encrypted using the Gaussian curve cryptography algorithm that is being developed alongside this network. Stallman writes in one of these essays, 
+    "When I was going to kindergarten, the teachers were trying to teach us this attitude–the spirit of sharing–by having us do it. They figured if we did it, we’d learn. So they said, "If you bring candy to school, you can’t keep it all for yourself; you have to share some with the other kids." The society was set up to teach this spirit of cooperation. And why do you have to do that? Because people are not cooperative. That’s one part of human nature, and there are other parts of human nature. There are lots of parts of human nature. So, if you want a better society, you’ve got to work to encourage the spirit of sharing. It’ll never get to be 100 percent. That’s understandable. People have to take care of themselves too. But if we make it somewhat bigger, we’re all better off. Nowadays, according to the U.S. Government, teachers are supposed to do the exact opposite. "Oh, Johnny, you brought software to school. Well, don’t share it. Oh no. Sharing is wrong. Sharing means you’re a pirate." What do they mean when they say "pirate"? They’re saying that helping your neighbor is the moral
+equivalent of attacking a ship." \cite{RMS}. This is the underlying school of thought that is being implemented. A network like the one described previously is not completed and removes any possibility of software not being shared. This does not mean that users can't charge each other for the software, but the code base must be open to inspection. 
+
+\subsection{Computational Complexity Challenges of the IP Versioning System}
+\subsubsection{IPv4 and IPv6 Overview}
+The Internet Protocol Version 4 (IPv4) was the first version of the Internet Protocol deployed for production on SATNET in 1982 and on the ARPANET in early 1983. It has an address length of thirty-two bits, and formatted with non-negative integers separate by decimel points (i.e $127.0.0.1$). The total number of address is about 4.3 billion ($2^{32}$). Due to the rapid growth of the internet, something not planned for by original developers, IPv4 address are nearly exhausted. The primary cause of this is that routing tables are growing due to inefficient allocation and prefix de-aggregation. \cite{khare2010scalability} This growth increases the computational challenges for routers, that have too process larger tables and therefore conduct more Network Address Translation transactions. 
+
+Network Address Translation (NAT) has allowed for recent routers and internet backbone devices to continue to use IPv4 addressing. Figure 1 demonstrates how NAT transitions IPv4 address into common local area network address, such as $10.0.0.1$. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.1]{images/NAT.png}
+    \caption{Network Address Translation (NAT) practical demonstration. }
+    \label{fig:nat_demo}
+\end{figure}
+
+
+
+As IPv6 adoption rises, similar challenges are predicted, although its larger address space may delay the issue for some time
+
+
+
+
+
+    Internet Protocol Version 6 (IPv6)
+
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.1]{images/address_space.png}
+    \caption{Virtual address space and physical address space relationship}
+    \label{fig:address_space}
+\end{figure}
+
+
+\section{IPvOC Architecture}
+\subsection{Cryptography}
+\subsubsection{Downfalls of Elliptic Curve Cryptography}
+The fundamentals of Elliptic Curve Cryptography are based on an algebraic structure known as a finite field. Finite fields contain, as the name implies, a finite number of elements. Shor’s algorithm, which runs on a quantum computer, can solve the elliptic curve discrete logarithm problem (ECDLP) in polynomial time, meaning the time taken is polynomial in \(\log{N}\). ECC security relies on the difficulty of solving \( Q = kP \), where \( k \) is a secret scalar and \( P \) is a known point on the curve. Shor’s algorithm can find \( k \) extremely efficiently, even using the slowest multiplication algorithm {\cite{Harvey2021}}. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.2]{images/ecc.png}
+    \caption{A catalog of elliptic curves. The region shown is $x, y \in{[-3,3]}$.}
+    \label{fig:ecc}
+\end{figure}
+
+ECC also involves computing operations on points over elliptic curves. For an elliptic curve \( E \) defined by:
+  $$
+  y^2 = x^3 + ax + b \ (\text{mod} \ p)
+  $$
+The complexity of handling point additions, scalar multiplications, and inversions on the curve over \( \mathbb{F}_p \) can introduce implementation errors, which attackers could exploit {\cite{sabbry2024optimized}}. Furthermore, weak curves or small subgroup orders can reduce the security of ECC. For example, some curves can have small-order subgroups, leading to attacks where the scalar \( k \) can be computed more easily. Ensuring \( P \) is of large prime order is crucial to help prevent this, however, it is not implemented widely. ECC implementations may be vulnerable to timing attacks or power analysis attacks during scalar multiplication operations \( Q = kP \), where the attacker can derive \( k \) by observing execution time or power consumption. Without constant-time algorithms, ECC becomes insecure. {\cite{fouque2008fault}}
+
+\subsubsection{Introduction to Gaussian Surface Cryptography}
+%\includegraphics[scale=.1]{images/Gaussian_curvature.png}
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.1]{images/Gaussian_curvature.png}
+    \caption{Representation of a Gaussian geometry}
+    \label{fig:gaussian_curvature}
+\end{figure}
+
+A Gaussian surface is a closed surface that exists in a three-dimensional space. This space is through which the flux of a vector field is created. One can calculate the total flux of a vector by taking the integral of the area of the surface where the flux is originating. The equation used to do this is: \(\[\oint_{\partial V} \vec{E} \cdot d\vec{A} = \frac{Q_{\text{enc}}}{\epsilon_0}\]\). 
+
+\subsubsection{Proof}
+We can define a define a surface using a function \( z = f(x, y) \), for instance:\[z = e^{-\frac{x^2 + y^2}{2\sigma^2}}\] where \(\sigma\) controls the spread of the surface. Let points \( P = (x_1, y_1, z_1) \) and \( Q = (x_2, y_2, z_2) \) on the surface. We can also define the addition of points such that \( P + Q \) results in another point on the surface, similar to the group law on elliptic curves.
+
+
+\subsubsection{Generation of a Key with Relation to Computation Complexity}
+
+
+\subsection{System Overview}
+\subsubsection{Blockchain Structure and Consensus Mechanism}
+\subsubsection{Packet Flow and Structure}
+\subsection{Signatures}
+
+\section{Implementation}
+\subsection{Proof of Concept}
+\subsubsection{Key Features, Tool-chains, Mathematical concepts, Encoding}
+
+\section{Security and Privacy}
+\subsection{Data Integrity and Authentication}
+\subsubsection{Encryption, Digital Signatures, and Attack Resistance}
+
+\section{Conclusion}
+\subsection{Summary and Implications}
+\subsubsection{Impact on Internet Security and Privacy}
+
+
+
+\newpage
+\makeworkscited
+\end{document}
