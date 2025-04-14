@@ -22,6 +22,8 @@ type Block struct {
 	PreviousHash string
 }
 
+
+
 // ANSI color codes
 const (
 	Reset  = "\033[0m"
@@ -40,9 +42,9 @@ func main() {
 
 	// Welcome message
 	fmt.Printf("%s╔════════════════════════════════════╗%s\n", Cyan, Reset)
-	fmt.Printf("%s║   Welcome to the Blockchain CLI    ║%s\n", Cyan, Reset)
+	fmt.Printf("%s║ Welcome to the IpV0x: by Mac Lawson║%s\n", Cyan, Reset)
 	fmt.Printf("%s╚════════════════════════════════════╝%s\n", Cyan, Reset)
-	fmt.Printf("%s✓ Track URLs with style! Type 'exit' to quit.%s\n\n", Green, Reset)
+	fmt.Printf("%s✓ Blockchain-backed Consensus Networking Type 'exit' to quit.%s\n\n", Green, Reset)
 
 	var prevHash string
 
